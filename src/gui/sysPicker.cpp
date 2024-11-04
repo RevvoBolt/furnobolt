@@ -92,6 +92,9 @@ DivSystem FurnaceGUI::systemPicker(bool fullWidth) {
     if (hoveredSys!=DIV_SYSTEM_NULL) {
       const DivSysDef* sysDef=e->getSystemDef(hoveredSys);
       ImGui::TextWrapped("%s",sysDef->description);
+      ImGui::Separator();
+      drawSystemChannelInfoText(sysDef);
+      drawSystemChannelInfo(sysDef);
     }
   }
   ImGui::EndChild();

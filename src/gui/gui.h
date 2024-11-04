@@ -1995,6 +1995,7 @@ class FurnaceGUI {
     int backupMaxCopies;
     int autoFillSave;
     int autoMacroStepSize;
+    int backgroundPlay;
     unsigned int maxUndoSteps;
     float vibrationStrength;
     int vibrationLength;
@@ -2254,6 +2255,7 @@ class FurnaceGUI {
       backupMaxCopies(5),
       autoFillSave(0),
       autoMacroStepSize(0),
+      backgroundPlay(0),
       maxUndoSteps(100),
       vibrationStrength(0.5f),
       vibrationLength(20),
@@ -2281,6 +2283,7 @@ class FurnaceGUI {
     bool introPlayed;
     bool protoWelcome;
     bool importedMOD, importedS3M, importedXM, importedIT;
+    double popupTimer;
     Tutorial():
 #ifdef SUPPORT_XP
       introPlayed(true),
@@ -2291,7 +2294,8 @@ class FurnaceGUI {
       importedMOD(false),
       importedS3M(false),
       importedXM(false),
-      importedIT(false) {
+      importedIT(false),
+      popupTimer(10.0f) {
     }
   } tutorial;
 
@@ -2526,6 +2530,7 @@ class FurnaceGUI {
   SelectionPoint sel1, sel2;
   int dummyRows;
   int transposeAmount, randomizeMin, randomizeMax, fadeMin, fadeMax, collapseAmount;
+  float playheadY;
   float scaleMax;
   bool fadeMode, randomMode, haveHitBounds;
   signed char pendingStepUpdate;
@@ -2896,6 +2901,8 @@ class FurnaceGUI {
   void drawTutorial();
   void drawXYOsc();
   void drawUserPresets();
+  void drawSystemChannelInfo(const DivSysDef* whichDef);
+  void drawSystemChannelInfoText(const DivSysDef* whichDef);
 
   void assignActionMap(std::map<int,int>& actionMap, int first, int last);
   void drawKeybindSettingsTableRow(FurnaceGUIActions actionIdx);
@@ -2993,7 +3000,7 @@ class FurnaceGUI {
   void doUndoInstrument();
   void doRedoInstrument();
 
-  void play(int row=0);
+  void play(int row=-1);
   void setOrder(unsigned char order, bool forced=false);
   void stop();
   void endIntroTune();
